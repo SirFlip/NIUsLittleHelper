@@ -433,7 +433,7 @@ function calculateMAStatistic(empID, reqtype, reqStartDate, reqEndDate) {
   var dutyId = empID;
   // console.log("Get reqtype"+reqtype);
   console.log("Get MA Stats for " + empID + "from " + reqStartDate + " to " + reqEndDate);
-  // calculateAusbStatisticNonCached({ 'empID': empID, 'reqtype': reqtype, 'reqStartDate': reqStartDate, 'reqEndDate': reqEndDate });
+  //calculateAusbStatisticNonCached({ 'empID': empID, 'reqtype': reqtype, 'reqStartDate': reqStartDate, 'reqEndDate': reqEndDate });
   return getFromCache("dutyid_", dutyId,
     { 'empID': empID, 'reqtype': reqtype, 'reqStartDate': reqStartDate, 'reqEndDate': reqEndDate },
     calculateDutyStatisticNonCached, DutyCount);
@@ -620,9 +620,20 @@ function calculateAusbStatisticNonCached(args) {
         type: "POST",
       });
     }).then(function (data) {
-      $(data).each(function (key, value) {
+      var i = 0;
+      var el = document.createElement('html');
+      el.innerHTML = data;
+      tables = el.getElementsByClassName("standard");
+      var duties = tables[1];
 
-        console.log(value);
+      $(duties).each(function (duty) {
+        console.log(duty);
+        $(duty).each(function (column) {
+
+          if (column[0].indexOf("Ausbildung")) {
+            console.log(duty);
+          }
+        });
       });
     });
 

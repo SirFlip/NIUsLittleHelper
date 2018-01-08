@@ -806,7 +806,7 @@ $(document).ready(function() {
           if (sumambcount == 0 && sumrdcount == 0) {
             return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
           } else {
-            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
           }
         }
       ); done = true;
@@ -839,7 +839,7 @@ $(document).ready(function() {
           if (sumambcount == 0 && sumrdcount == 0) {
             return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
           } else {
-            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours+"</td></tr></table>";
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours+"</td></tr></table>";
           }
         }
       );
@@ -872,7 +872,7 @@ $(document).ready(function() {
           if (sumambcount == 0 && sumrdcount == 0) {
             return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
           } else {
-            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
           }
         }
       );
@@ -905,7 +905,7 @@ $(document).ready(function() {
           if (sumambcount == 0 && sumrdcount == 0) {
             return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
           } else {
-            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
           }
         }
       );
@@ -938,7 +938,7 @@ $(document).ready(function() {
           if (sumambcount == 0 && sumrdcount == 0) {
             return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
           } else {
-            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
           }
         }
       );
@@ -971,7 +971,7 @@ $(document).ready(function() {
           if (sumambcount == 0 && sumrdcount == 0) {
             return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
           } else {
-            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
           }
         }
       ); done = true;
