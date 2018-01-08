@@ -429,7 +429,15 @@ function calculateDutyStatistic(empID, reqtype, reqStartDate, reqEndDate) {
       calculateDutyStatisticNonCached, DutyCount);
 }
 
-
+function calculateMAStatistic(empID, reqtype, reqStartDate, reqEndDate) {
+  var dutyId = empID;
+  // console.log("Get reqtype"+reqtype);
+  console.log("Get MA Stats for " + empID + "from " + reqStartDate + " to " + reqEndDate);
+  // calculateAusbStatisticNonCached({ 'empID': empID, 'reqtype': reqtype, 'reqStartDate': reqStartDate, 'reqEndDate': reqEndDate });
+  return getFromCache("dutyid_", dutyId,
+    { 'empID': empID, 'reqtype': reqtype, 'reqStartDate': reqStartDate, 'reqEndDate': reqEndDate },
+    calculateDutyStatisticNonCached, DutyCount);
+}
 
 /*
 Liste an möglichen Statistiken, die berechnet werden können
@@ -566,7 +574,59 @@ class DutyCount {
 
 }
 
+function calculateAusbStatisticNonCached(args) {
+  var empID = args.empID;
+  var reqtype = args.reqtype;
+  var reqStartDate = args.reqStartDate;
+  var reqEndDate = args.reqEndDate;
 
+  var post = {};
+  console.log("calculateDutyStatisticNonCached --> start");
+
+  return $.get("https://niu.wrk.at/Kripo/Employee/LVStatistic.aspx?EmployeeNumberID=" + empID)
+    .then(function (data) {
+      console.log("calculateDutyStatisticNonCached --> rcv from get EmployeDutyStatistic.aspx");
+      //console.log("statcalc --> rcv from get EmployeeDutyStatistic.aspx" + data);
+      var jData = $(data);
+
+      var keyPostfix = jData.find("#__KeyPostfix").val();
+      var eventvalidation = jData.find("#__EVENTVALIDATION").val(); //jData.find("input[name=__EVENTVALIDATION]").val();
+      if (reqStartDate.length == 0) {
+        console.log("Get the last 6 Month");
+        var reqDate = new Date();
+        reqDate.setMonth(reqDate.getMonth() - 6);
+        var reqDateString = getNiuDateString(reqDate);
+        var todaysDateString = getNiuDateString(new Date());
+      } else {
+        console.log("Get the stats from " + reqStartDate + " to " + reqEndDate);
+        var reqDate = new Date();
+        reqDate.setMonth(reqDate.getMonth() - 6);
+        reqStartDate = getNiuDateString(reqStartDate);
+        reqEndDate = "31.12.2017";//getNiuDateString(reqEndDate);
+      }
+      console.log("calculateDutyStatisticNonCached --> request dates FROM: " + reqStartDate + " // TO: " + reqEndDate);
+      post["__KeyPostfix"] = keyPostfix;
+      post["__EVENTVALIDATION"] = eventvalidation;
+      post["__VIEWSTATE"] = "";
+      post["__EVENTARGUMENT"] = "";
+      post["__EVENTTARGET"] = "ctl00$main$m_Submit";
+      post["ctl00$main$m_From$m_Textbox"] = reqStartDate;
+      post["ctl00$main$m_Until$m_Textbox"] = reqEndDate;
+      post["&ctl00$main$m_JoinBrokenDuties"] = "on";
+
+      return $.ajax({
+        url: "https://niu.wrk.at/Kripo/Employee/LVStatistic.aspx?EmployeeNumberID=" + empID,
+        data: post,
+        type: "POST",
+      });
+    }).then(function (data) {
+      $(data).each(function (key, value) {
+
+        console.log(value);
+      });
+    });
+
+}
 
 
 /*
@@ -604,34 +664,34 @@ function calculateDutyStatisticNonCached(args) {
 
             var keyPostfix = jData.find("#__KeyPostfix").val();
             var eventvalidation = jData.find("#__EVENTVALIDATION").val(); //jData.find("input[name=__EVENTVALIDATION]").val();
-
+          if (reqStartDate.lengt == 0) {
+            console.log("Get the last 6 Month");
             var reqDate = new Date();
             reqDate.setMonth(reqDate.getMonth() - 6);
-            // var reqDatePlus = reqDate.getMonth() + 1; // Weil im Datumsobjekt Januar = 0
-            // var reqDateString = reqDate.getDate() + "." + reqDatePlus + "." + reqDate.getFullYear();
             var reqDateString = getNiuDateString(reqDate);
-
             var todaysDateString = getNiuDateString(new Date());
-            // var todaysDate = new Date();
-            // var todaysDatePlus = todaysDate.getMonth() + 1; // Weil im Datumsobjekt Januar = 0
-            // var todaysDateString = todaysDate.getDate() + "." + todaysDatePlus + "." + todaysDate.getFullYear();
+          } else {
+            console.log("Get the stats from " + reqStartDate + " to " + reqEndDate);
+            var reqDate = new Date();
+            reqDate.setMonth(reqDate.getMonth() - 6);
+            reqStartDate = getNiuDateString(reqStartDate);
+            reqEndDate = getNiuDateString(reqEndDate);
+          }
+          console.log("calculateDutyStatisticNonCached --> request dates FROM: " + reqStartDate + " // TO: " + reqEndDate);
+          post["__KeyPostfix"] = keyPostfix;
+          post["__EVENTVALIDATION"] = eventvalidation;
+          post["__VIEWSTATE"] = "";
+          post["__EVENTARGUMENT"] = "";
+          post["__EVENTTARGET"] = "ctl00$main$m_Submit";
+          post["ctl00$main$m_From$m_Textbox"] = reqStartDate;
+          post["ctl00$main$m_Until$m_Textbox"] = reqEndDate;
+          post["&ctl00$main$m_JoinBrokenDuties"] = "on";
 
-            console.log("calculateDutyStatisticNonCached --> request dates FROM: " + reqDateString + " // TO: " + todaysDateString);
-
-            post["__KeyPostfix"] = keyPostfix;
-            post["__EVENTVALIDATION"] = eventvalidation;
-            post["__VIEWSTATE"] = "";
-            post["__EVENTARGUMENT"] = "";
-            post["__EVENTTARGET"] = "ctl00$main$m_Submit";
-            post["ctl00$main$m_From$m_Textbox"] = reqDateString;
-            post["ctl00$main$m_Until$m_Textbox"] = todaysDateString;
-            post["&ctl00$main$m_JoinBrokenDuties"] = "on";
-
-            return $.ajax({
-                url: "https://niu.wrk.at/Kripo/DutyRoster/EmployeeDutyStatistic.aspx?EmployeeNumberID=" + empID,
-                data: post,
-                type: "POST",
-            });
+          return $.ajax({
+            url: "https://niu.wrk.at/Kripo/DutyRoster/EmployeeDutyStatistic.aspx?EmployeeNumberID=" + empID,
+            data: post,
+            type: "POST",
+          });
         }).then( function(data) {
                     //console.log("statcalc --> rcv status " + status);
             //console.log("statcalc --> rcv data " + data);

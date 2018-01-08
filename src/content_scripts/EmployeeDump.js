@@ -736,8 +736,8 @@ $(document).ready(function() {
                 return calculateDutyStatistic(result.ENID, "");
               }).then(
                 function(statresult) {
-
-                  return statresult.getDutyHours("SUM_RD");
+                  var sumrd = statresult.getDutyHours("SUM_RD");
+                  return sumrd;
                 }
               );
       });
@@ -749,10 +749,233 @@ $(document).ready(function() {
                  return calculateDutyStatistic(result.ENID, "");
                }).then(
                  function(statresult) {
-                   return statresult.getDutyCount("SUM_RD");
+                   var sumrd = statresult.getDutyHours("SUM_RD");
+                   return sumrd;
                  }
                );
-      });
+    });
+    var done = false;
+    addCalculationHandler("#macheckcomplete", [{ calcname: "macheckcomplete", uiname: "Kompletter MA Check" }], function (dnr, name) {
+      $("#macheck_heuer").trigger("click");
+      if (done) {
+        done = false;
+        $("#macheck").trigger("click");
+      }
+      if (done) {
+        done = false;
+        $("#q1_last_year").trigger("click");
+      }
+      if (done) {
+        done = false;
+        $("#q2_last_year").trigger("click");
+      }
+      if (done) {
+        done = false;
+        $("#q3_last_year").trigger("click");
+      }
+      if (done) {
+        done = false;
+        $("#q4_last_year").trigger("click");
+      }
+      return "";
+    });
+    addCalculationHandler("#macheck_heuer", [{ calcname: "macheck_heuer", uiname: "Mitarbeitercheck 01 Heuer" }], function (dnr, name) {
+      console.log("Mitarbeitercheck für " + dnr + " started");
+      return dnrToIdentifier(dnr).then(
+        function (result) {
+          var d = new Date()
+          reqStartDate = new Date(d.getFullYear(), 0, 1);
+          reqEndDate = new Date(d.getFullYear(), 0, 31);
+          return calculateMAStatistic(result.ENID, "", reqStartDate, reqEndDate);
+        }).then(
+        function (statresult) {
+          var sumrdcount = statresult.getDutyCount("SUM_RD");
+          var sumrdhours = statresult.getDutyHours("SUM_RD");
+
+          var sumambcount = statresult.getDutyCount("AMB_ALL");
+          var sumambhours = statresult.getDutyHours("AMB_ALL");
+
+          // var sumausbcount = statresult.getDutyCount("AUSB_ALL");
+          // var sumausbhours = statresult.getDutyHours("AUSB_ALL");
+
+          var sumausbcount = 0;
+          var sumausbhours = 0;
+
+          var totalcount = statresult.getDutyCount("SUM_SAN");
+          var totalhours = statresult.getDutyHours("SUM_SAN");
+          if (sumambcount == 0 && sumrdcount == 0) {
+            return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
+          } else {
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+          }
+        }
+      ); done = true;
+
+    });
+    addCalculationHandler("#macheck", [{ calcname: "macheck", uiname: "Mitarbeitercheck 01 Vorjahr" }], function (dnr, name) {
+      console.log("Mitarbeitercheck für "+dnr+" started");
+      return dnrToIdentifier(dnr).then(
+        function (result) {
+          var d = new Date()
+          reqStartDate = new Date(d.getFullYear() - 1, 0, 1);
+          reqEndDate = new Date(d.getFullYear() - 1, 0, 31);
+          return calculateMAStatistic(result.ENID, "", reqStartDate, reqEndDate);
+        }).then(
+        function (statresult) {
+          var sumrdcount = statresult.getDutyCount("SUM_RD");
+          var sumrdhours = statresult.getDutyHours("SUM_RD");
+
+          var sumambcount = statresult.getDutyCount("AMB_ALL");
+          var sumambhours = statresult.getDutyHours("AMB_ALL");
+
+          // var sumausbcount = statresult.getDutyCount("AUSB_ALL");
+          // var sumausbhours = statresult.getDutyHours("AUSB_ALL");
+
+          var sumausbcount = 0;
+          var sumausbhours = 0;
+
+          var totalcount = statresult.getDutyCount("SUM_SAN");
+          var totalhours = statresult.getDutyHours("SUM_SAN");
+          if (sumambcount == 0 && sumrdcount == 0) {
+            return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
+          } else {
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours+"</td></tr></table>";
+          }
+        }
+      );
+      done = true;
+    });
+    addCalculationHandler("#q1_last_year", [{ calcname: "q1check", uiname: "Mitarbeitercheck Q1 Vorjahr" }], function (dnr, name) {
+      console.log("Mitarbeitercheck Q1 für " + dnr + " started");
+      return dnrToIdentifier(dnr).then(
+        function (result) {
+          var d = new Date()
+          reqStartDate = new Date(d.getFullYear() - 1, 0, 1);
+          reqEndDate = new Date(d.getFullYear() - 1, 2, 31);
+          return calculateMAStatistic(result.ENID, "", reqStartDate, reqEndDate);
+        }).then(
+        function (statresult) {
+          var sumrdcount = statresult.getDutyCount("SUM_RD");
+          var sumrdhours = statresult.getDutyHours("SUM_RD");
+
+          var sumambcount = statresult.getDutyCount("AMB_ALL");
+          var sumambhours = statresult.getDutyHours("AMB_ALL");
+
+          // var sumausbcount = statresult.getDutyCount("AUSB_ALL");
+          // var sumausbhours = statresult.getDutyHours("AUSB_ALL");
+
+          var sumausbcount = 0;
+          var sumausbhours = 0;
+
+          var totalcount = statresult.getDutyCount("SUM_SAN");
+          var totalhours = statresult.getDutyHours("SUM_SAN");
+          if (sumambcount == 0 && sumrdcount == 0) {
+            return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
+          } else {
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+          }
+        }
+      );
+      done = true;
+    });
+    addCalculationHandler("#q2_last_year", [{ calcname: "q2check", uiname: "Mitarbeitercheck Q2 Vorjahr" }], function (dnr, name) {
+      console.log("Mitarbeitercheck Q2 für " + dnr + " started");
+      return dnrToIdentifier(dnr).then(
+        function (result) {
+          var d = new Date()
+          reqStartDate = new Date(d.getFullYear() - 1, 3, 1);
+          reqEndDate = new Date(d.getFullYear() - 1, 5, 31);
+          return calculateMAStatistic(result.ENID, "", reqStartDate, reqEndDate);
+        }).then(
+        function (statresult) {
+          var sumrdcount = statresult.getDutyCount("SUM_RD");
+          var sumrdhours = statresult.getDutyHours("SUM_RD");
+
+          var sumambcount = statresult.getDutyCount("AMB_ALL");
+          var sumambhours = statresult.getDutyHours("AMB_ALL");
+
+          // var sumausbcount = statresult.getDutyCount("AUSB_ALL");
+          // var sumausbhours = statresult.getDutyHours("AUSB_ALL");
+
+          var sumausbcount = 0;
+          var sumausbhours = 0;
+
+          var totalcount = statresult.getDutyCount("SUM_SAN");
+          var totalhours = statresult.getDutyHours("SUM_SAN");
+          if (sumambcount == 0 && sumrdcount == 0) {
+            return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
+          } else {
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+          }
+        }
+      );
+      done = true;
+    });
+    addCalculationHandler("#q3_last_year", [{ calcname: "q3check", uiname: "Mitarbeitercheck Q3 Vorjahr" }], function (dnr, name) {
+      console.log("Mitarbeitercheck Q3 für " + dnr + " started");
+      return dnrToIdentifier(dnr).then(
+        function (result) {
+          var d = new Date()
+          reqStartDate = new Date(d.getFullYear() - 1, 6, 1);
+          reqEndDate = new Date(d.getFullYear() - 1, 8, 31);
+          return calculateMAStatistic(result.ENID, "", reqStartDate, reqEndDate);
+        }).then(
+        function (statresult) {
+          var sumrdcount = statresult.getDutyCount("SUM_RD");
+          var sumrdhours = statresult.getDutyHours("SUM_RD");
+
+          var sumambcount = statresult.getDutyCount("AMB_ALL");
+          var sumambhours = statresult.getDutyHours("AMB_ALL");
+
+          // var sumausbcount = statresult.getDutyCount("AUSB_ALL");
+          // var sumausbhours = statresult.getDutyHours("AUSB_ALL");
+
+          var sumausbcount = 0;
+          var sumausbhours = 0;
+
+          var totalcount = statresult.getDutyCount("SUM_SAN");
+          var totalhours = statresult.getDutyHours("SUM_SAN");
+          if (sumambcount == 0 && sumrdcount == 0) {
+            return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
+          } else {
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+          }
+        }
+      );
+      done = true;
+    });
+    addCalculationHandler("#q4_last_year", [{ calcname: "q4check", uiname: "Mitarbeitercheck Q4 Vorjahr" }], function (dnr, name) {
+      var d = new Date()
+      reqStartDate = new Date(d.getFullYear() - 1, 9, 1);
+      reqEndDate = new Date(d.getFullYear() - 1, 11, 31);
+      console.log("Mitarbeitercheck Q4 für " + dnr + " started");
+      return dnrToIdentifier(dnr).then(
+        function (result) {
+          return calculateMAStatistic(result.ENID, "", reqStartDate, reqEndDate);
+        }).then(
+        function (statresult) {
+          var sumrdcount = statresult.getDutyCount("SUM_RD");
+          var sumrdhours = statresult.getDutyHours("SUM_RD");
+
+          var sumambcount = statresult.getDutyCount("AMB_ALL");
+          var sumambhours = statresult.getDutyHours("AMB_ALL");
+
+          // var sumausbcount = statresult.getDutyCount("AUSB_ALL");
+          // var sumausbhours = statresult.getDutyHours("AUSB_ALL");
+
+          var sumausbcount = 0;
+          var sumausbhours = 0;
+
+          var totalcount = statresult.getDutyCount("SUM_SAN");
+          var totalhours = statresult.getDutyHours("SUM_SAN");
+          if (sumambcount == 0 && sumrdcount == 0) {
+            return "Keine Dienstleistung im Zeitraum " + getNiuDateString(reqStartDate) + " - " + getNiuDateString(reqEndDate);
+          } else {
+            return "<table><thead><tr><td>Bereich</td><td>Dienste</td><td>Stunden</td></tr></thead><tbody><tr><td><b>RD</b></td><td>" + sumrdcount + "</td><td>" + sumrdhours + "</td></tr><tr><td><b>AMB</b></td><td>" + sumambcount + "</td><td>" + sumambhours + "</td></tr><tr><td><b>AUSB</b></td><td>" + sumausbcount + "</td><td>" + sumausbhours + "</td></tr><tr><td><b>Gesamt</b></td><td>" + totalcount + "</td><td>" + totalhours + "</td></tr></table>";
+          }
+        }
+      ); done = true;
+    });
       //$("#rddienste").trigger("click");
 
       //zum testen

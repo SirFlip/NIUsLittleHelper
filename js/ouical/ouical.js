@@ -62,7 +62,7 @@
       return '';
 
       //return '<a class="icon-yahoo" target="_blank" href="' +
-      //  href + '">Yahoo!</a>'; 
+      //  href + '">Yahoo!</a>';
     },
 
     ics: function(event, eClass, calendarName) {

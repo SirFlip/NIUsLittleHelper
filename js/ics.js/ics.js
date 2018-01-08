@@ -55,7 +55,7 @@ var ics = function() {
                 return false;
             };
 
-            
+
             var start = begin;
             var end = stop;
 

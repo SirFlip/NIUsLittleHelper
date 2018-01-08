@@ -1,5 +1,5 @@
 // PouchDB 6.1.2
-// 
+//
 // (c) 2012-2017 Dale Harvey and the PouchDB team
 // PouchDB may be freely distributed under the Apache license, version 2.0.
 // For all details and documentation:
@@ -3332,7 +3332,7 @@ Dual licensed under the MIT and GPL licenses.
  *   >>> Math.uuid(15)     // 15 character ID (default base=62)
  *   "VcydxgltxrVZSTV"
  *
- *   // Two arguments - returns ID of the specified length, and radix. 
+ *   // Two arguments - returns ID of the specified length, and radix.
  *   // (Radix must be <= 62)
  *   >>> Math.uuid(8, 2)  // 8 character ID (base=2)
  *   "01001010"
@@ -11093,7 +11093,7 @@ function padLeft(str, padWith, upToLength) {
 
 var MIN_MAGNITUDE = -324; // verified by -Number.MIN_VALUE
 var MAGNITUDE_DIGITS = 3; // ditto
-var SEP = ''; // set to '_' for easier debugging 
+var SEP = ''; // set to '_' for easier debugging
 
 function collate(a, b) {
 
@@ -13051,7 +13051,7 @@ function replicate(src, target, opts, returnValue, result) {
         throw new Error('cancelled');
       }
 
-      // `res` doesn't include full documents (which live in `docs`), so we create a map of 
+      // `res` doesn't include full documents (which live in `docs`), so we create a map of
       // (id -> error), and check for errors while iterating over `docs`
       var errorsById = Object.create(null);
       res.forEach(function (res) {
