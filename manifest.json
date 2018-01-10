@@ -4,7 +4,7 @@
   "author": "Gerald Baeck",
   "description": "Chrome Erweiterung zur einfacheren Bedienung des internen Verwaltungssystems des Wiener Roten Kreuz (NIU).",
   "version": "0.50.4",
-  "homepage_url": "http://baeck.at",
+  "homepage_url": "https://github.com/geraldbaeck/NIUsLittleHelper",
   "options_ui" : {
     "page" : "src/options.html",
     "chrome_style" : true
@@ -14,12 +14,12 @@
     "48": "icons/niu48.png",
     "128": "icons/niu128.png"
   },
-  "incognito": "not_allowed",
   "permissions": [
     "https://niu.wrk.at/*",
     "storage",
     "webRequest",
-    "webRequestBlocking"
+    "webRequestBlocking",
+    "tabs"
   ],
   "web_accessible_resources": [
     "img/*",
@@ -205,6 +205,7 @@
         "src/content_scripts/lib/calendar-vars.js",
         "src/content_scripts/lib/calendar-lib.js",
         "src/content_scripts/lib/staff-lib.js",
+        "src/content_scripts/lib/user-lib.js",
         "src/content_scripts/today.js"
       ],
       "css" : ["src/css/style.css", "js/ouical/ouical.css"],

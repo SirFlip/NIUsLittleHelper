@@ -10,13 +10,34 @@ $('body').on('click', '.getCal', function() {
   cal.download('Dienstplan');
 });
 
-$(document).ready(function() {
+
+
+$(document).ready(function () {
   $('table.AmbulanceTable').find('a').attr('target', 'wrk_todayDetail');
   $('#ctl00_main_m_CourseList__CourseTable').find('a').attr('target', 'wrk_todayDetail');
-  $.when(getDuty(), getAmbulanceDuty(), getCourses()).done(function() {
+  $.when(getDuty(), getAmbulanceDuty(), getCourses()).done(function () {
     $('.MultiDutyRoster').prepend(icsDLButton);
   });
+
+
+
+
+  ;
+  (function () {
+    getUser.then(function (user) {
+      checkIfFunktionaer.then(function (fulfilled) {
+        user.setIsFunktionaer(true);
+        getNewEmployees(user).then(function (data){
+          console.log(JSON.parse(data));
+        });
+      }).catch(function (error) {
+        user.setIsFunktionaer(false);
+        console.log(error.message);
+      });
+    });
+  })();
 });
+
 
 function _queryEmployee(detailUri, employeeID) {
   $.ajax({

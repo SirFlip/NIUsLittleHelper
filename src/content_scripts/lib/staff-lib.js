@@ -636,7 +636,6 @@ function calculateAusbStatisticNonCached(args) {
         });
       });
     });
-
 }
 
 
@@ -1166,4 +1165,100 @@ return new Promise(function(resolve, reject) {
           });
 
           });
-       }
+}
+
+
+var isFunktionaer = false;
+var checkIfFunktionaer = new Promise(
+  function (resolve, reject) {
+    $.ajax({
+      url: "https://niu.wrk.at/Kripo/Employee/EmployeeList.aspx"
+    }).done(function (rawHTML) {
+      var parsed = $.parseHTML($.trim(rawHTML));
+      $(parsed).each(function (key, value) {
+        if (value.nodeName == "TITLE") {
+          isFunktionaer = $.trim(value.innerHTML) != "Error";
+        }
+      });
+      if (isFunktionaer) {
+        resolve(true); // fulfilled
+      } else {
+        var reason = new Error('Kein Funktionär');
+        reject(reason); // reject
+      }
+    });
+  });
+
+var getNewEmployees = function (user) {
+  return new Promise(
+    function (resolve, reject) {
+      return $.get("https://niu.wrk.at/Kripo/Employee/EmployeeList.aspx")
+        .then(function (data) {
+          var post = {};
+          var jData = $(data);
+          var keyPostfix = jData.find("#__KeyPostfix").val();
+          var eventvalidation = jData.find("#__EVENTVALIDATION").val();
+
+          var date = new Date();
+          var reqDate = new Date(date - (12096e5 * 5));
+          var reqDateString = getNiuDateString(reqDate);
+          var todaysDateString = getNiuDateString(new Date());
+
+          post["__KeyPostfix"] = keyPostfix;
+          post["__EVENTVALIDATION"] = eventvalidation;
+          post["__VIEWSTATE"] = "";
+          post["__EVENTARGUMENT"] = "";
+          post["__EVENTTARGET"] = "ctl00_main_m_Submit";
+          post["ctl00$main$m_SearchControl$m_EmployeeNr"] = user.getDnrRange();
+          post["ctl00$main$m_SearchControl$m_Memberstatus"] = "372612f6-87d9-4ef9-9b75-46d6f0c29e15";
+          post["ctl00$main$m_SearchControl$m_EntryDateFrom$m_Textbox"] = reqDateString;
+          post["ctl00$main$m_SearchControl$m_EntryDateUntil$m_Textbox"] = todaysDateString;
+          return $.ajax({
+            url: "https://niu.wrk.at/Kripo/Employee/EmployeeList.aspx",
+            data: post,
+            type: "POST",
+          });
+        }).then(function (data) {
+          var post = {};
+          var jData = $(data);
+          var keyPostfix = jData.find("#__KeyPostfix").val();
+          var eventvalidation = jData.find("#__EVENTVALIDATION").val();
+
+          var date = new Date();
+          var reqDate = new Date(date - (12096e5 * 5));
+          var reqDateString = getNiuDateString(reqDate);
+          var todaysDateString = getNiuDateString(new Date());
+
+          post["__KeyPostfix"] = keyPostfix;
+          post["__EVENTVALIDATION"] = eventvalidation;
+          post["__VIEWSTATE"] = "";
+          post["__EVENTARGUMENT"] = "";
+          post["__EVENTTARGET"] = "ctl00_main_m_Submit";
+          post["ctl00$main$m_SearchControl$m_EmployeeNr"] = user.getDnrRange();
+          post["ctl00$main$m_SearchControl$m_Memberstatus"] = "372612f6-87d9-4ef9-9b75-46d6f0c29e15";
+          post["ctl00$main$m_SearchControl$m_EntryDateFrom$m_Textbox"] = reqDateString;
+          post["ctl00$main$m_SearchControl$m_EntryDateUntil$m_Textbox"] = todaysDateString;
+          return $.ajax({
+            url: "https://niu.wrk.at/Kripo/Employee/EmployeeList.aspx",
+            data: post,
+            type: "POST",
+          });
+        }).then(function(data){
+          return $.ajax({
+            url: "https://niu.wrk.at/Kripo/Employee/EmployeeDump.aspx",
+            data: data,
+            type: "POST",
+          });
+        }).then(function (data) {
+          var wnd = window.open("about:blank", "", "_blank");
+          wnd.document.write(data);
+
+        });
+      if (data.length > 0) {
+        resolve(data);
+      } else {
+        var reason = new Error('Keine neuen Aufnahmen in den letzten 2 Wochen');
+        reject(reason);
+      }
+    });
+}
