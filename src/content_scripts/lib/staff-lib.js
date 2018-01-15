@@ -1203,7 +1203,7 @@ var getNewEmployees = function (user) {
           var eventargument = jData.find("#__EVENTARGUMENT").val();
           var eventtarget = jData.find("#__EVENTTARGET").val();
           var date = new Date();
-          var reqDate = new Date(date - (12096e5*5));
+          var reqDate = new Date(date - (12096e5));
           var reqDateString = getNiuDateString(reqDate);
           var todaysDateString = getNiuDateString(new Date());
 
