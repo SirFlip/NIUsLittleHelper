@@ -202,6 +202,7 @@
         "js/ics.js/ics.deps.min.js",
         "js/ics.js/ics.js",
         "js/ouical/ouical.js",
+        "js/notify/notify.min.js",
         "src/content_scripts/lib/calendar-vars.js",
         "src/content_scripts/lib/calendar-lib.js",
         "src/content_scripts/lib/staff-lib.js",

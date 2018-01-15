@@ -27,11 +27,15 @@ $(document).ready(function () {
     getUser.then(function (user) {
       checkIfFunktionaer.then(function (fulfilled) {
         user.setIsFunktionaer(true);
-        getNewEmployees(user).then(function (data){
+        getNewEmployees(user).then(function (data) {
           console.log(JSON.parse(data));
+        }).catch(function (error) {
+          $.notify(error.message, "error");
+          console.log(error.message);
         });
       }).catch(function (error) {
         user.setIsFunktionaer(false);
+        $.notify(error.message, "error");
         console.log(error.message);
       });
     });
