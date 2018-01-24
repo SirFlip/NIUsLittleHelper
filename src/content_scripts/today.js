@@ -27,15 +27,31 @@ $(document).ready(function () {
     getUser.then(function (user) {
       checkIfFunktionaer.then(function (fulfilled) {
         user.setIsFunktionaer(true);
-        getNewEmployees(user).then(function (data) {
+        var notyObj = new Noty({
+         type: "info",
+         theme: "metroui",
+         layout: "bottomRight",
+         text: "Abrufen der letzten Aufnahmen...",
+        }).show();
+        getNewEmployees(user, notyObj).then(function (data) {
           console.log(JSON.parse(data));
         }).catch(function (error) {
-          $.notify(error.message, "error");
+        new Noty({
+          type: "error",
+          theme: "metroui",
+          layout: "bottomRight",
+          text: "Fehler bei der Abfrage der letzten Aufnahmen."
+        }).show();
           console.log(error.message);
         });
       }).catch(function (error) {
         user.setIsFunktionaer(false);
-        $.notify(error.message, "error");
+        new Noty({
+          type: "error",
+          theme: "metroui",
+          layout: "bottomRight",
+          text: "Fehler bei der Abfrage der letzten Aufnahmen."
+        }).show();
         console.log(error.message);
       });
     });

@@ -202,14 +202,14 @@
         "js/ics.js/ics.deps.min.js",
         "js/ics.js/ics.js",
         "js/ouical/ouical.js",
-        "js/notify/notify.min.js",
+        "js/noty/noty.js",
         "src/content_scripts/lib/calendar-vars.js",
         "src/content_scripts/lib/calendar-lib.js",
         "src/content_scripts/lib/staff-lib.js",
         "src/content_scripts/lib/user-lib.js",
         "src/content_scripts/today.js"
       ],
-      "css" : ["src/css/style.css", "js/ouical/ouical.css"],
+      "css" : ["js/noty/noty.css", "/js/noty/themes/metroui.css", "src/css/style.css", "js/ouical/ouical.css"],
       "all_frames": true,
       "run_at": "document_end"
     },

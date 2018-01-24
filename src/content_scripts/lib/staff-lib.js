@@ -1189,7 +1189,7 @@ var checkIfFunktionaer = new Promise(
     });
   });
 
-var getNewEmployees = function (user) {
+var getNewEmployees = function (user, notyObj) {
   return new Promise(
     function (resolve, reject) {
       var postdata = {};
@@ -1237,7 +1237,7 @@ var getNewEmployees = function (user) {
             type: "GET",
           });
         }).then(function (data) {
-
+          notyObj.close();
           var jData = $(data);
           var newEmployeeCount = jData.find('#ctl00_main_m_Count').html();
           console.log(newEmployeeCount);
@@ -1245,7 +1245,12 @@ var getNewEmployees = function (user) {
             var wnd = window.open("about:blank", "", "_blank");
             wnd.document.write(data);
           } else {
-            $.notify("Keine Aufnahmen in den letzten 2 Wochen", "info");
+            new Noty({
+              type: "success",
+              theme: "metroui",
+              layout: "bottomRight",
+              text: "Keine Aufnahmen in den letzten 2 Wochen!"
+            }).show();
             new Error("Keine Aufnahmen in den letzten 2 Wochen");
           }
         });
