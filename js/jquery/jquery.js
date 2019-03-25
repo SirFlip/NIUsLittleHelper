@@ -65,7 +65,7 @@ var support = {};
 
 
 var
-	version = "1.12.4",
+	version = "3.3",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {

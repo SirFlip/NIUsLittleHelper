@@ -14,7 +14,6 @@
     "48": "icons/niu48.png",
     "128": "icons/niu128.png"
   },
-  "incognito": "not_allowed",
   "permissions": [
     "downloads",
     "https://niu.wrk.at/*",
