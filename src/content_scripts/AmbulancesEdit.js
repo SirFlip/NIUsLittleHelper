@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-  console.log("AmbulancesEdit.js started....")
+  console.log("AmbulancesEdit.js started....");
+  $("tr.DutyRosterHeader").first().children().last().css("width","2%");
 
   var scrapeAmbulance = function() {
     var ambulance = {
