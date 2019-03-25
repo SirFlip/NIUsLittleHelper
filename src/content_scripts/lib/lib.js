@@ -94,29 +94,52 @@ function getHeaderNumber(header, className) {
 }
 
 // erstellt die fertige VCard
-function createVCard(employee) {
-  function addVCardEntry(k, v) {
-    vCard += k + ":" + v + "\n";
+function createVCard(employee,callback) {
+
+  function toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result.split(",").pop());
+      };
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
   }
 
-  var vCard = 'BEGIN:VCARD\nVERSION:3.0\n';
-  vCard += "ORG:Österreichisches Rotes Kreuz - Landesverband Wien\n";
-  vCard += "PROFILE:VCARD\n";
-  vCard += "TZ:+0100\n";
-  vCard += "CATEGORIES:WRK,ÖRK\n";
-  addVCardEntry("FN", employee.nameFull);
-  addVCardEntry("N", employee.nameLast + ';' + employee.nameFirst + ';;;')
-  addVCardEntry("URL", employee.url);
-  addVCardEntry("REV", new Date().toISOString());
-  addVCardEntry("PHOTO;TYPE=PNG", employee.imageUrl);
-  addVCardEntry("UID", 'urn:uuid:' + employee.uid);
-  addVCardEntry("NOTE", employee.notes);
-  
-  $.each(employee.contacts, function() {
-    addVCardEntry(this.k, this.v);
+  toDataUrl(employee.imageUrl, function(myBase64) {
+    function addVCardEntry(k, v) {
+      vCard += k + ":" + v + "\n";
+    }
+
+    var vCard = 'BEGIN:VCARD\nVERSION:3.0\n';
+    vCard += "ORG:WRK\n";
+    vCard += "PROFILE:VCARD\n";
+    vCard += "TZ:+0100\n";
+    vCard += "CATEGORIES:WRK,ÖRK\n";
+    addVCardEntry("FN", employee.nameFull);
+    addVCardEntry("N", employee.nameLast + ';' + employee.nameFirst + ';;;')
+    addVCardEntry("URL", employee.url);
+    addVCardEntry("REV", new Date().toISOString());
+
+    //addVCardEntry("PHOTO;TYPE=PNG", employee.imageUrl);
+
+    console.log(myBase64); // myBase64 is the base64 string
+
+    addVCardEntry("PHOTO;TYPE=PNG;ENCODING=b", myBase64);
+
+    addVCardEntry("UID", 'urn:uuid:' + employee.uid);
+    addVCardEntry("NOTE", employee.notes);
+
+    $.each(employee.contacts, function() {
+      addVCardEntry(this.k, this.v);
+    });
+    vCard += 'END:VCARD\n'
+    callback(vCard);
   });
-  vCard += 'END:VCARD\n'
-  return vCard;
 }
 
 // jquery parseHTML function without image loading and stuff

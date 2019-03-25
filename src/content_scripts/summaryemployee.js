@@ -84,18 +84,19 @@ $(document).ready(function() {
   
   console.log(employee);
 
-  var vCard = createVCard(employee);
-  console.log(vCard);
+ createVCard(employee, function (vCard) {
+   console.log(vCard);
 
-  // create file object
-  var a = createVCFDownloadLink(employee, vCard);
-  file = new Blob([vCard]);
-  document.body.appendChild(a);
-  $(a).find("img").first().css("width", "24px");
-  $(a).find("img").first().css("margin", "0px 10px");
-  $('h1').css("display", "inline");
-  $('h1').css("vertical-align", "top");  
-  $('h1').after(a);
+   // create file object
+   var a = createVCFDownloadLink(employee, vCard);
+   file = new Blob([vCard]);
+   document.body.appendChild(a);
+   $(a).find("img").first().css("width", "24px");
+   $(a).find("img").first().css("margin", "0px 10px");
+   $('h1').css("display", "inline");
+   $('h1').css("vertical-align", "top");
+   $('h1').after(a);
+  });
   
 // create download link for image
 var a = document.createElement('a');
