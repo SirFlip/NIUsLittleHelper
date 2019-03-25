@@ -16,16 +16,16 @@
       var startTime = formatTime(event.start);
       var endTime = calculateEndTime(event);
 
-      var href = encodeURI([
+      var href = [
         'https://www.google.com/calendar/render',
         '?action=TEMPLATE',
-        '&text=' + (event.title || ''),
+        '&text=' + encodeURIComponent(event.title || ''),
         '&dates=' + (startTime || ''),
         '/' + (endTime || ''),
-        '&details=' + (event.description || ''),
-        '&location=' + (event.address || ''),
+        '&details=' + encodeURIComponent(event.description || ''),
+        '&location=' + encodeURIComponent(event.address || ''),
         '&sprop=&sprop=name:'
-      ].join(''));
+      ].join('');
       return '<a class="icon-google" target="_blank" href="' +
         href + '">Google</a>';
     },

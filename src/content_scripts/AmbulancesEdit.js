@@ -12,12 +12,16 @@ $(document).ready(function() {
     ambulance.id_original = $('#ctl00_main_m_AmbulanceDisplay_m_Number').text().trim();
     ambulance.sub = parseInt($('#ctl00_main_m_AmbulanceDayDisplay_m_SubNumber').text().trim());
     ambulance.id = ambulance.id_original.replace('/', '_') + '_' + ambulance.sub;
-    // TODO Einfügen der Url funktioniert nicht Google oder ouical trennen die url nach dem & ab
-    // WORKAROUND shortener verwenden
-    // ambulance.description = ambulance.url + '\r\n\r\n' + $('#ctl00_main_m_AmbulanceDisplay_m_Webinfo').text().trim();
-    ambulance.description = $('#ctl00_main_m_AmbulanceDisplay_m_Webinfo').text().trim();
+    ambulance.description =
+        'URL: '+ambulance.url+'\r\n'+
+        'Einsatzbeginn: '+$('#ctl00_main_m_AmbulanceDayDisplay_m_Start', '').text()+'\r\n'+
+        'EB vor Ort: '+$('#ctl00_main_m_AmbulanceDayDisplay_m_StartWork', '').text()+'\r\n'+
+        'Geplantes Ende: '+$('#ctl00_main_m_AmbulanceDayDisplay_m_EndWork', '').text()+'\r\n\r\n'+
+        $('#ctl00_main_m_AmbulanceDisplay_m_Webinfo').text().trim();
+    console.log(ambulance.description);
     ambulance.address = $('#ctl00_main_m_AmbulanceDisplay_m_Ort').text();
-    ambulance.start = moment($('#ctl00_main_m_AmbulanceDayDisplay_m_StartWork', '').text().split(',')[1].trim(), 'D.M.YYYY H:mm', 'de').toDate();
+    ambulance.start = moment($('#ctl00_main_m_AmbulanceDayDisplay_m_Start', '').text().split(',')[1].trim(), 'D.M.YYYY H:mm', 'de').toDate();
+    ambulance.startwork = moment($('#ctl00_main_m_AmbulanceDayDisplay_m_StartWork', '').text().split(',')[1].trim(), 'D.M.YYYY H:mm', 'de').toDate();
     ambulance.end = moment($('#ctl00_main_m_AmbulanceDayDisplay_m_EndWork').text().split(',')[1].trim(), 'D.M.YYYY H:mm', 'de').toDate();
 
     /* var headers = $('table[id=ctl00_main_m_AmbulanceDayInfo_ctl00_m_Table] tr.DutyRosterHeader').find('td').map(function() { 
